@@ -1,0 +1,91 @@
+# A basic example config file opening 3 challenges
+#
+
+###
+# List of targets
+targets:
+  # Ubuntu 20.10 (Groovy)
+  - name: target3
+    vm_controller:
+      vm_type: vagrant
+      vagrantfilepath: systems
+
+    ###
+    # simple switch if targets is used in attack simulation. Default is true. If set to false the machine will not be started
+    active: yes
+
+    vm_name: target3
+
+    nicknames:
+
+    os: linux
+    ###
+    # Targets need a unique PAW name for caldera
+    paw: target3
+    ###
+    # Targets need to be in a group for caldera
+    group: red_linux
+
+    machinepath: target3
+    # Do not destroy/create the machine: Set this to "yes".
+    use_existing_machine: yes
+
+    ###
+    # The folder all the implants will be installed into
+    playground: /home/vagrant
+
+    # Sensors to run on this machine
+    sensors:
+
+    vulnerabilities:
+      - ftp_config_vul
+      - telnet_traffic_sender
+      - apache2_slow_loris
+
+  - name: target4
+    vm_controller:
+      vm_type: vagrant
+      vagrantfilepath: systems
+
+    ###
+    # simple switch if targets is used in attack simulation. Default is true. If set to false the machine will not be started
+    active: yes
+
+    vm_name: target4
+
+    nicknames:
+
+    os: linux
+    ###
+    # Targets need a unique PAW name for caldera
+    paw: target4
+    ###
+    # Targets need to be in a group for caldera
+    group: red_linux
+
+    machinepath: target4
+    # Do not destroy/create the machine: Set this to "yes".
+    use_existing_machine: yes
+
+    ###
+    # The folder all the implants will be installed into
+    playground: /home/vagrant
+
+    # Sensors to run on this machine
+    sensors:
+
+    vulnerabilities:
+      - telnet_open_port
+      - sshd_config_vul
+      - weak_user_passwords
+
+###
+# General sensor config config
+sensor_conf:
+
+###
+# Settings for the results being harvested
+results:
+  ###
+  # The directory the loot will be in
+  loot_dir: loot
