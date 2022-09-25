@@ -27,8 +27,13 @@ class WeakPasswordVulnerabilityVulnerability(VulnerabilityPlugin):
             # This is in the debian package "whois"
 
             for user in self.conf["linux"]:
-                cmd = f"sudo useradd -m -p '{user['password']}' -s /bin/bash {user['name']}"
-                self.run_cmd(cmd)
+                add = f"sudo useradd {user['name']} -s /bin/bash -m"
+                self.run_cmd(add)
+                # useradd needs encrypted password, go around that by changing afterwards
+                pw = f"echo {user['name']}:{user['password']} | sudo chpasswd"
+                self.run_cmd(pw)
+                flag_cmd = f"sudo su - {user['name']} -c \"echo {user['flag']} >> /home/{user['name']}/flag.txt\""
+                self.run_cmd(flag_cmd)
 
         elif self.machine_plugin.config.os() == "windows":
 
@@ -49,6 +54,8 @@ class WeakPasswordVulnerabilityVulnerability(VulnerabilityPlugin):
 
         if self.machine_plugin.config.os() == "linux":
             for user in self.conf["linux"]:
+                flag_cmd = f"sudo rm -rf /home/{user['name']}"
+                self.run_cmd(flag_cmd)
                 # Remove user
                 cmd = f"sudo userdel -r {user['name']}"
                 self.run_cmd(cmd)
