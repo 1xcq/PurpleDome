@@ -8,6 +8,12 @@
 Vagrant.configure("2") do |config|
 
     # Use the virtualbox provider with some common settings
+  config.hostmanager.enabled = false
+  #config.hostmanager.enabled = true
+  #config.hostmanager.manage_host = true
+  #config.hostmanager.manage_guest = false
+  #config.hostmanager.ignore_private_ip = true
+
   config.vm.provider "virtualbox" do |v|
     # Workaround Ubuntu 16.04 issue with Virtualbox where Box waits 5 minutes to start if network "cable" is not connected.
     # https://github.com/chef/bento/issues/682
@@ -56,7 +62,7 @@ Vagrant.configure("2") do |config|
 	  # Create a public network, which generally matched to bridged network.
 	  # Bridged networks make the machine appear as another physical device on
 	  # your network.
-	  target1.vm.network "public_network", bridge: "enp4s0"
+	  target1.vm.network "public_network", bridge: "enp3s0"
 
 	  # Share an additional folder to the guest VM. The first argument is
 	  # the path on the host to the actual folder. The second argument is
@@ -104,7 +110,7 @@ Vagrant.configure("2") do |config|
         #target2.vm.hostname = "target2w"
         #target2.vm.define "target2w"
 
-        target2.vm.network "public_network", bridge: "enp4s0"
+        target2.vm.network "public_network", bridge: "enp3s0"
 
         target2.vm.communicator = "winssh"
         target2.winssh.shell ="cmd"
@@ -136,7 +142,7 @@ Vagrant.configure("2") do |config|
 
 	  # Every Vagrant development environment requires a box. You can search for
 	  # boxes at https://vagrantcloud.com/search.
-	  target3.vm.box = "ubuntu/impish64"
+    target3.vm.box = "ubuntu/jammy64"
 	  # target.vm.base_mac = "080027BB1475"
 	  target3.vm.hostname = "target3"
 	  target3.vm.define "target3"
@@ -173,7 +179,7 @@ Vagrant.configure("2") do |config|
 	  # Create a public network, which generally matched to bridged network.
 	  # Bridged networks make the machine appear as another physical device on
 	  # your network.
-	  target3.vm.network "public_network", bridge: "enp4s0"
+    target3.vm.network "public_network", :bridge => "enp3s0", ip: "192.168.2.250", hostname: true
 
 	  # Share an additional folder to the guest VM. The first argument is
 	  # the path on the host to the actual folder. The second argument is
@@ -210,6 +216,93 @@ Vagrant.configure("2") do |config|
 	  #./hackme.sh
 
 	  SHELL
+
+    # manual route management script for static ip!!
+    #target3.vm.provision "shell", run: "always", inline: "route add default gw 192.168.2.1"
+	end
+
+	########################
+
+	config.vm.define "target4" do |target3|
+	  # The most common configuration options are documented and commented below.
+	  # For a complete reference, please see the online documentation at
+	  # https://docs.vagrantup.com.
+
+	  # Every Vagrant development environment requires a box. You can search for
+	  # boxes at https://vagrantcloud.com/search.
+    target3.vm.box = "ubuntu/jammy64"
+	  # target.vm.base_mac = "080027BB1475"
+	  target3.vm.hostname = "target4"
+	  target3.vm.define "target4"
+
+	  target3.vm.synced_folder ".", "/vagrant"
+
+	  target3.vm.provider "virtualbox" do |v|
+	    v.memory = 2048
+	    v.cpus = 4
+    end
+
+
+	  # Disable automatic box update checking. If you disable this, then
+	  # boxes will only be checked for updates when the user runs
+	  # `vagrant box outdated`. This is not recommended.
+	  # config.vm.box_check_update = false
+
+	  # Create a forwarded port mapping which allows access to a specific port
+	  # within the machine from a port on the host machine. In the example below,
+	  # accessing "localhost:8080" will access port 80 on the guest machine.
+	  # NOTE: This will enable public access to the opened port
+	  # config.vm.network "forwarded_port", guest: 80, host: 8080
+
+	  # Create a forwarded port mapping which allows access to a specific port
+	  # within the machine from a port on the host machine and only allow access
+	  # via 127.0.0.1 to disable public access
+	  # config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+
+	  # Create a private network, which allows host-only access to the machine
+	  # using a specific IP.
+	  # config.vm.network "private_network", ip: "192.168.33.10"
+	  # target3.vm.network :private_network, ip: '192.168.178.163'
+
+	  # Create a public network, which generally matched to bridged network.
+	  # Bridged networks make the machine appear as another physical device on
+	  # your network.
+    target3.vm.network "public_network", :bridge => "enp3s0", ip: "192.168.2.251", hostname: true
+
+	  # Share an additional folder to the guest VM. The first argument is
+	  # the path on the host to the actual folder. The second argument is
+	  # the path on the guest to mount the folder. And the optional third
+	  # argument is a set of non-required options.
+	  # config.vm.synced_folder "../data", "/vagrant_data"
+
+	  # Provider-specific configuration so you can fine-tune various
+	  # backing providers for Vagrant. These expose provider-specific options.
+	  # Example for VirtualBox:
+	  #
+	  # config.vm.provider "virtualbox" do |vb|
+	  #   # Display the VirtualBox GUI when booting the machine
+	  #   vb.gui = true
+	  #
+	  #   # Customize the amount of memory on the VM:
+	  #   vb.memory = "1024"
+	  # end
+	  #
+	  # View the documentation for the provider you are using for more
+	  # information on available options.
+
+	  # Enable provisioning with a shell script. Additional provisioners such as
+	  # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
+	  # documentation for more information about their specific syntax and use.
+	  target3.vm.provision "shell", inline: <<-SHELL
+	  ls /vagrant
+	  cd /vagrant/target4
+	  chmod +x bootstrap.sh
+	  sudo ./bootstrap.sh
+
+	  SHELL
+
+    # manual route management script for static ip!!
+    #target3.vm.provision "shell", run: "always", inline: "route add default gw 192.168.2.1"
 	end
 
 #####################################################
@@ -252,7 +345,7 @@ Vagrant.configure("2") do |config|
 	  # Create a public network, which generally matched to bridged network.
 	  # Bridged networks make the machine appear as another physical device on
 	  # your network.
-	  attacker.vm.network "public_network", bridge: "enp4s0"
+	  attacker.vm.network "public_network", bridge: "enp3s0"
 
 	  # Share an additional folder to the guest VM. The first argument is
 	  # the path on the host to the actual folder. The second argument is
