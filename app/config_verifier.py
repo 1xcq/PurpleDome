@@ -201,5 +201,13 @@ class MainConfig:
             return True
         return False
 
+@dataclass
+class CTFConfig:
+    """ Slightly different Config for CTF needs """
+    targets: conlist(Target, min_items=1)  # type: ignore
+    results: Results
+
+    # Free form configuration for plugins (possibility to add arbitrary keys and values)
+    sensor_conf: Optional[dict]
 
 # TODO: Check for name duplication

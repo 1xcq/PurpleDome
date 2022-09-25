@@ -4,7 +4,7 @@
 
 from typing import Optional, Union
 import yaml
-from app.config_verifier import MainConfig, Attacker, Target
+from app.config_verifier import MainConfig, CTFConfig, Attacker, Target
 
 from app.exceptions import ConfigurationError
 
@@ -315,6 +315,77 @@ class ExperimentConfig():
             return int(self.raw_config.attacks.nap_time)
         except KeyError:
             return 0
+
+    def get_sensor_config(self, name: str) -> dict:
+        """ Return the config for a specific sensor
+
+        :param name: name of the sensor
+        """
+
+        if self.raw_config is None:
+            raise ConfigurationError("Config file is empty")
+
+        if self.raw_config.sensor_conf is None:  # Better for unit tests that way.
+            return {}
+        if name in self.raw_config.sensor_conf:
+            return self.raw_config.sensor_conf[name]
+
+        return {}
+
+
+class CTFEnvironmentConfig():
+    """ Configuration class for a CTF Env """
+
+    def __init__(self, configfile: str):
+        """ Init the config, process the file
+
+        :param configfile: The configuration file to process
+        """
+
+        self.raw_config: Optional[CTFConfig] = None
+        self._targets: list[MachineConfig] = []
+        self.load(configfile)
+
+        # Test essential data that is a hard requirement. Should throw errors if anything is wrong
+        self.loot_dir()
+
+    def load(self, configfile: str) -> None:
+        """ Loads the configuration file
+
+        :param configfile: The configuration file to process
+        """
+
+        with open(configfile, encoding="utf8") as fh:
+            data = yaml.safe_load(fh)
+
+        if data is None:
+            raise ConfigurationError("Config file is empty")
+
+        self.raw_config = CTFConfig(**data)
+
+        # Process targets
+        if self.raw_config.targets is None:
+            raise ConfigurationError("Config file does not specify targets")
+
+        for target in self.raw_config.targets:
+            self._targets.append(MachineConfig(target))
+
+    def targets(self) -> list[MachineConfig]:
+        """ Return config for targets as MachineConfig objects """
+
+        return self._targets
+
+    def loot_dir(self) -> str:
+        """ Returns the loot dir """
+
+        if self.raw_config is None:
+            raise ConfigurationError("Config file is empty")
+
+        try:
+            res = self.raw_config.results.loot_dir
+        except KeyError as error:
+            raise ConfigurationError("results/loot_dir not properly set in configuration") from error
+        return res
 
     def get_sensor_config(self, name: str) -> dict:
         """ Return the config for a specific sensor
