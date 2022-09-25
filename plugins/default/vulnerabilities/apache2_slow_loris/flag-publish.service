@@ -1,0 +1,11 @@
+[Unit]
+Description=Simple flag publishing service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/vagrant/publish-flag.sh
+Restart=always
+RestartSec=3s
+
+[Install]
+WantedBy=multi-user.target
