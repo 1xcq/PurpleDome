@@ -10,19 +10,21 @@ The changes so far mainly serve the purpose as a Network-Lab to learn and try ou
 
 On a current Ubuntu 21.10 system, just execute the *init.sh* to install the required packages and set up the virtual env.
 
-You need python 3.9 (which is part of this Ubuntu)
+You need python 3.9
+
 **If you do not have python 3.9, have a look at pyenv**
+
 Another option on Ubuntu is to install the python3.9 package with apt-get via the deadsnakes/ppa source. 
-*Make sure the virtual environment is created after you have the right python version.*
 
-
-And it will not run properly in a VM as it spawns its own VMs ... unless VT-x is available. We confirmed it is working in VirtualBox. Please reserve enough disk space. The simple hello_world will already download a kali and an ubuntu image. They must be stored on your VM.
+It will not run properly in a VM unless VT-x is available, as it spawns own VMs. We confirmed it is working in VirtualBox. Please reserve enough disk space. The simple ctf_world configfile will already download an ubuntu image an create 2 VMs. They must be stored on your VM.
 
 ```bash
 ./init.sh
 ```
 
 Default vms will be vagrant and virtualbox.
+
+*Make sure the virtual environment has been created with the correct python version (have a look into `venv/bin/`)*
 
 **Before using any PurpleDome commands switch into the python environment:**
 
