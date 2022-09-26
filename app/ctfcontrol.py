@@ -108,14 +108,14 @@ class ChallengeControl():
             pass
 
         machine.up()
-        print("before reboot")
         machine.reboot()  # Kernel changes on system creation require a reboot
-        print("after reboot")
-
+        
+        self.attack_logger.vprint(f"Priming vulnerabilities on {machine_name}", 2)
         needs_reboot = machine.prime_vulnerabilities()
-        print("after prime vulns")
+        
+        self.attack_logger.vprint(f"Priming sensors on {machine_name}", 2)
         needs_reboot |= machine.prime_sensors()
-        print("after prime sens")
+        
 
         if needs_reboot:
             self.attack_logger.vprint(f"{CommandlineColors.OKBLUE}rebooting target {machine_name} ....{CommandlineColors.ENDC}", 1)
@@ -127,10 +127,12 @@ class ChallengeControl():
         self.attack_logger.vprint(f"Installing vulnerabilities on {machine_name}", 2)
         machine.install_vulnerabilities()
         machine.start_vulnerabilities()
+        self.attack_logger.vprint(f"Done installing vulnerabilities on {machine_name}", 2)
 
         self.attack_logger.vprint(f"Installing sensors on {machine_name}", 2)
         machine.install_sensors()
         machine.start_sensors()
+        self.attack_logger.vprint(f"Done installing sensors on {machine_name}", 2)
 
         self.attack_logger.vprint(f"{CommandlineColors.OKGREEN}Target is ready: {machine_name}  {CommandlineColors.ENDC}",1)
 
