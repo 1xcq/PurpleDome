@@ -81,6 +81,14 @@ exit
 vagrant destroy target3
 ```
 
+#### Connection issues because of ip-address
+When vagrant provisions the boxes (on the first run), it saves the ip-address of the machine.
+This step can fail if the network configuration varies a lot.
+
+For CTF-purposes first try to scan your network if the machines exist.
+
+If this does not help look into `systems/target/ip4.txt` for the saved address. If the file is empty / not there see if the hostname -I command in `bootstrap.sh` works when you manually up a machine.
+
 # Upstream PurpleDome related
 
 ## PurpleDome creates simulated systems which hack each other

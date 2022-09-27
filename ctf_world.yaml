@@ -4,8 +4,7 @@
 ###
 # List of targets
 targets:
-  # Ubuntu 20.10 (Groovy)
-  - name: target3
+  - name: target1
     vm_controller:
       vm_type: vagrant
       vagrantfilepath: systems
@@ -14,19 +13,19 @@ targets:
     # simple switch if targets is used in attack simulation. Default is true. If set to false the machine will not be started
     active: yes
 
-    vm_name: target3
+    vm_name: target1
 
     nicknames:
 
     os: linux
     ###
     # Targets need a unique PAW name for caldera
-    paw: target3
+    paw: target1
     ###
     # Targets need to be in a group for caldera
     group: red_linux
 
-    machinepath: target3
+    machinepath: target1
     # Do not destroy/create the machine: Set this to "yes".
     use_existing_machine: yes
 
@@ -42,7 +41,7 @@ targets:
       - telnet_traffic_sender
       - apache2_slow_loris
 
-  - name: target4
+  - name: target2
     vm_controller:
       vm_type: vagrant
       vagrantfilepath: systems
@@ -51,19 +50,19 @@ targets:
     # simple switch if targets is used in attack simulation. Default is true. If set to false the machine will not be started
     active: yes
 
-    vm_name: target4
+    vm_name: target2
 
     nicknames:
 
     os: linux
     ###
     # Targets need a unique PAW name for caldera
-    paw: target4
+    paw: target2
     ###
     # Targets need to be in a group for caldera
     group: red_linux
 
-    machinepath: target4
+    machinepath: target2
     # Do not destroy/create the machine: Set this to "yes".
     use_existing_machine: yes
 
