@@ -1,0 +1,11 @@
+# activate privat network only host and guests can communicate in
+use_private: false
+
+# network interface to use instead of default gateway Example: "enp3s0"
+interface:
+
+# assign static ips to targets
+static_ips: 
+  - 192.168.2.250 
+  - 192.168.2.251
+

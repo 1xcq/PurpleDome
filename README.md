@@ -34,14 +34,8 @@ source venv/bin/activate
 
 ## Setting up the CTF environment
 
-1. Make sure you are in the python3.9 virtual environment
+**Make sure you are in the python3.9 virtual environment**
    - (check if all requirements are installed) 
-2. Find your network adapter with `ip addr sh`
-   - most likely has an address starts with 192.168.x.x
-   - examples are: *enp3s0, eth0, wlp7s0, wlan0* (ethernet, wireless)
-3. Have a look inside the Vagrantfile
-   - Find the sections for target3 and target4
-   - Edit the :bridge => "your-adapter"
 
 ```bash
 python3 ./ctf_control.py -vv  run --configfile ctf_world
@@ -60,13 +54,28 @@ python3 ./ctf_control.py -vv  run --configfile ctf_world
 
 #### Vagrantfile Network Bridge
 
-The vagrant configuration file systems/Vagrantfile defines a bridged network shared between the VirtualBox VMs. If you do not have one or yours has a different name, please create one and change the config. Currently every machine uses:
+The vagrant configuration uses a bridged public_network shared between the VirtualBox VMs. 
 
-```
-target.vm.network "public_network", :bridge => "enp3s0", ip: <static-ip-address>
-```
+If you do not have one or yours has a different name, please create one and change the config. 
 
-Be sure to edit the bridge network adapter and assign a static IP that works for your network. DHCP sometimes causes issues.
+Currently every machine tries to use the default gateway for your local network.
+
+To set a specific interface adapter, uncomment the entry in `/systems/network.settings.yaml` and put in your interface name. (Example: enp3s0, eth0, wl1, ...)
+Useful: `ip addr sh`
+
+#### Static ip-addresses
+
+As a default dhcp is used to configure the vagrant machines inside the network.
+
+If dhcp fails and `/systems/target/ip4.txt` does not exist, is empty or has an ipv6 address -> Uncomment the static ips in `/systems/network.settings.yaml` or set your own.
+
+#### Use private network
+
+If you do not want your vulnerable VMs to be accessible from other machines inside your local network you can use a host-only network to access them. 
+
+**This will some break challenges.**
+
+To activate private_network set "use_private" in `/systems/network.settings.yaml` to true.
 
 #### Vagrant machine creation
 
