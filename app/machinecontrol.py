@@ -19,6 +19,7 @@ from app.pluginmanager import PluginManager
 from plugins.base.machinery import MachineryPlugin
 from plugins.base.sensor import SensorPlugin
 from plugins.base.vulnerability_plugin import VulnerabilityPlugin
+from plugins.base.machinery import MachineStates
 
 
 class Machine():
@@ -429,6 +430,12 @@ class Machine():
             raise ConfigurationError("Missing VM Manager")
 
         return self.vm_manager.get_playground()
+
+    def get_state(self) -> MachineStates:
+        if self.vm_manager is None:
+            raise ConfigurationError("Missing VM Manager")
+
+        return self.vm_manager.get_state()
 
     def get_machine_path_external(self) -> str:
         """ Returns the external path for this machine """

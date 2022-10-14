@@ -4,6 +4,7 @@
 
 import os
 import subprocess
+import sys
 import time
 import zipfile
 import shutil
@@ -20,6 +21,7 @@ from app.calderacontrol import CalderaControl
 from app.machinecontrol import Machine
 from plugins.base.attack import AttackPlugin
 from app.machinequeue import MachineQueue
+from plugins.base.machinery import MachineStates
 
 
 
@@ -100,6 +102,9 @@ class ChallengeControl():
         machine = Machine(machine_conf, attack_logger=self.attack_logger)
         if machine is None:
             raise MachineError("Creating target machine failed")
+        # if machine.get_state() is MachineStates.RUNNING:
+        #     raise MachineError("Machine already running")
+
         try:
             if not machine_conf.use_existing_machine():
                 machine.destroy()  # this can fail if machine does not exist but tried anyway
@@ -149,7 +154,6 @@ class ChallengeControl():
             self.attack_logger.vprint(f"{CommandlineColors.OKBLUE}preparing target {target_name} ....{CommandlineColors.ENDC}", 1)
             machine_info = { "name": target_name, "config": target_conf}
             mq.put(machine_info)
-
         mq.join()
 
 
