@@ -1,0 +1,11 @@
+name: Guess my credentials
+description: "describe the challenge"
+steps:
+  - "Scan which ports are open"
+  - "Try to guess the password for the test user"
+  - "Try to guess the password for the iloveyou user"
+hints: 
+  - "Check out hydra as a program to brute-force credentials"
+  - "Find out hydras special flags to check for common passwords in relation to the username"
+  - "Rockyou was a big breach where a lot of credentials got leaked. Google how to use wordlists with hydra"
+

@@ -25,7 +25,7 @@ from plugins.base.machinery import MachineStates
 class Machine():
     """ A virtual machine. Attacker or target. Abstracting stuff away. """
 
-    def __init__(self, config: Union[dict, MachineConfig, Attacker, Target], attack_logger: AttackLog, calderakey: str = "ADMIN123",) -> None:
+    def __init__(self, config: Union[dict, MachineConfig, Attacker, Target], attack_logger: AttackLog, calderakey: str = "ADMIN123", plugin_path: Optional[str] = None) -> None:
         """
 
         :param config: The machine configuration as dict
@@ -49,7 +49,7 @@ class Machine():
         else:
             raise ConfigurationError("unknown type")
 
-        self.plugin_manager = PluginManager(self.attack_logger)
+        self.plugin_manager = PluginManager(self.attack_logger, plugin_path)
 
         # TODO: Read config from plugin
         if self.config.vmcontroller() == "vagrant":
