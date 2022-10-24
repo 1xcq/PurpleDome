@@ -151,11 +151,11 @@ def start_eel_server(development: bool):
     """Start Eel in either production or development environment."""
 
     if development:
-        directory = "static_web_folder/src"
+        directory = "web-app/src"
         app = None
         page = {'port': 3000}  # point to dev server from svelte app
     else:
-        directory = "static_web_folder/public"
+        directory = "web-app/public"
         app = 'default'
         page = 'index.html'
     eel.init(directory, allowed_extensions=['.tsx', '.ts', '.jsx', '.js', '.html'])

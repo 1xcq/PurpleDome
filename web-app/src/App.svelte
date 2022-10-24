@@ -32,7 +32,9 @@
 	
 	<div class="p-8 w-full">
 	{#if $selectedChallenge === ""}
-		<Loading></Loading> 
+		<p>
+			Creating machines for the first time may take a while. Please be patient!
+		</p>
 	{:else}
 		<Challenge eel={eel} />
 	{/if}
