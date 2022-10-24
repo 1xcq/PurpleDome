@@ -37,9 +37,9 @@ targets:
     sensors:
 
     vulnerabilities:
-      - ftp_config_vul
-      - telnet_traffic_sender
-      - apache2_slow_loris
+      - name: telnet_traffic_sender
+        target_hosts:
+          - target2.local
 
   - name: target2
     vm_controller:
@@ -74,9 +74,7 @@ targets:
     sensors:
 
     vulnerabilities:
-      - telnet_open_port
-      - sshd_config_vul
-      - weak_user_passwords
+      - name: telnet_open_port
 
 ###
 # General sensor config config

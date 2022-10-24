@@ -37,7 +37,7 @@ targets:
     sensors:
 
     vulnerabilities:
-      - apache2_slow_loris
+      - name: ftp_config_vul
 
 ###
 # General sensor config config

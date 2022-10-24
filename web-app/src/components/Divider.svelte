@@ -1,0 +1,1 @@
+<div class="w-1 h-full my-2 bg-slate-100 text-slate-100"></div>
