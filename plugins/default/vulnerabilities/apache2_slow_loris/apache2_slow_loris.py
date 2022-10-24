@@ -26,15 +26,12 @@ class ApacheVulnerability(VulnerabilityPlugin):
 
 
     def start(self):
-
         # mv index
         move = "sudo mv /home/vagrant/apache_index.html /var/www/html/index.html"
         self.run_cmd(move)
-
         # Restart apache2
         restart = "sudo systemctl restart apache2"
         self.run_cmd(restart)
-
         # flag service
         flag = "sudo chown root:root publish-flag.sh && sudo cp flag-publish.service /etc/systemd/system && sudo systemctl enable flag-publish && sudo systemctl daemon-reload && sudo systemctl start flag-publish"
         self.run_cmd(flag)
@@ -42,6 +39,9 @@ class ApacheVulnerability(VulnerabilityPlugin):
 
 
     def stop(self):
-
-        stop = "sudo systemctl stop apache2"
+        stop = "sudo systemctl disable apache2"
         self.run_cmd(stop)
+        flag_service = "sudo systemctl disable flag-publish && sudo systemctl daemon-reload"
+        self.run_cmd(flag_service)
+        remove_flag = "sudo rm -rf publish-flag.sh"
+        self.run_cmd(remove_flag)

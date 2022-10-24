@@ -88,6 +88,29 @@ class Attacker:
 
 
 @dataclass
+class Vulnerability:
+    """ Configuration for a vulnerability """
+    name: str
+    target_hosts: Optional[list[str]] = None
+
+    def has_key(self, keyname: str) -> bool:
+        """ Checks if a key exists
+            Required for compatibility with DotMap which is used in Unit tests
+        """
+        if keyname in self.__dict__:
+            return True
+        return False
+
+    def get(self, keyname: str, default: Any = None) -> Any:
+        """ Returns the value of a specific key
+            Required for compatibility with DotMap which is used in Unit tests
+        """
+        if self.has_key(keyname):
+            return self.__dict__[keyname]
+        return default
+
+
+@dataclass
 class Target:
     """ Configuration for a target VM """
     name: str
@@ -106,7 +129,7 @@ class Target:
     ssh_user: Optional[str] = None
     ssh_password: Optional[str] = None
     ssh_keyfile: Optional[str] = None
-    vulnerabilities: Optional[list[str]] = None
+    vulnerabilities: Optional[list[Vulnerability]] = None
 
     def has_key(self, keyname: str) -> bool:
         """ Checks if a key exists

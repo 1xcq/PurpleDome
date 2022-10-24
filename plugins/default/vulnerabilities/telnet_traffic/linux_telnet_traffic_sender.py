@@ -26,8 +26,11 @@ class TelnetSendVulnerability(VulnerabilityPlugin):
         self.run_cmd(install)
 
         # setup cron to run script every minute
-        cron = 'echo "*/1 * * * * /home/vagrant/access_telnet.sh | telnet 192.168.2.251" | crontab -'
-        self.run_cmd(cron)
+        # cron = 'echo "*/1 * * * * /home/vagrant/access_telnet.sh | telnet 192.168.2.251" | crontab -'
+        # cron = 'echo "*/1 * * * * /home/vagrant/access_telnet.sh | telnet 192.168.56.6" | crontab -'
+        for host in self.options.get("target_hosts", []):
+            cron = f'echo "*/1 * * * * /home/vagrant/access_telnet.sh | telnet {host}" | crontab -'
+            self.run_cmd(cron)
 
     def stop(self):
 

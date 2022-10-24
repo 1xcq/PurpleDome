@@ -140,6 +140,13 @@ class MachineConfig():
                 return self.raw_config.vulnerabilities or []
         return []
 
+    def vulnerability_names(self) -> list[str]:
+        """ Return a list of vulnerabilities configured for this machine """
+        if self.raw_config.has_key("vulnerabilities"):
+            if isinstance(self.raw_config, Target):
+                return list(map(lambda x: x.get("name"), self.raw_config.vulnerabilities or []))
+        return []
+
     def is_active(self) -> bool:
         """ Returns if this machine is set to active. Default is true """
 

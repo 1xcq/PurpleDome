@@ -1,5 +1,5 @@
 # activate privat network only host and guests can communicate in
-use_private: false
+use_private: true
 
 # network interface to use instead of default gateway Example: "enp3s0"
 interface:

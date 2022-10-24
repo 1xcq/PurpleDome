@@ -333,7 +333,7 @@ class Machine():
 
         reboot = False
 
-        for plugin in self.plugin_manager.get_plugins(VulnerabilityPlugin, self.config.vulnerabilities()):
+        for plugin in self.plugin_manager.get_plugins(VulnerabilityPlugin, self.config.vulnerability_names()):
             if not isinstance(plugin, VulnerabilityPlugin):
                 raise PluginError("Plugin manager returned wrong plugin type")
             name = plugin.get_name()
@@ -346,7 +346,8 @@ class Machine():
             plugin.set_machine_plugin(self.vm_manager)
             plugin.process_config({})    # plugin specific configuration
             plugin.setup()
-            reboot |= plugin.prime()
+            options = next(filter(lambda x: x.name == name, self.config.vulnerabilities()), None)
+            reboot |= plugin.prime(options)
             self.vulnerabilities.append(plugin)
             if self.attack_logger is not None:
                 self.attack_logger.vprint(f"{CommandlineColors.OKGREEN}Primed vulnerability: {name}{CommandlineColors.ENDC}", 2)
@@ -359,7 +360,7 @@ class Machine():
 
         """
 
-        for plugin in self.plugin_manager.get_plugins(VulnerabilityPlugin, self.config.vulnerabilities()):
+        for plugin in self.plugin_manager.get_plugins(VulnerabilityPlugin, self.config.vulnerability_names()):
             if not isinstance(plugin, VulnerabilityPlugin):
                 raise PluginError("Plugin manager returned wrong plugin type")
             name = plugin.get_name()
