@@ -17,9 +17,8 @@
 	eel.set_host('ws://localhost:8080')
 
 	onMount(async () => {
-		$challenges = await fetchChallenges();
-		// TODO: check for running machines in backend
-		console.log($challenges);
+		const cs = await fetchChallenges();
+		challenges.set(cs);
 	});
 
 	async function fetchChallenges() {
@@ -41,8 +40,26 @@
 	
 	<div class="p-8 w-full overflow-auto">
 	{#if $selectedChallenge === ""}
-		<p>
-			Creating machines for the first time may take a while. Please be patient!
+		<h2 class="font-bold text-3xl">WELCOME!</h2>
+		<p class="mt-16 text-lg">
+			First up a few additional infos: 
+			<br>
+			<br>
+			Creating machines for the first time may take a while as vagrant has to download, update and boot the boxes. 
+			<strong class="text-bold">Please be patient!</strong>
+			<br>
+			<br>
+			If all packages were correctly installed machines should be accessible through the shown network or their hostnames.
+			(Example > target1.local)
+			<br>
+			<br>
+			Purple Dome reuses target machines. Because of it we can only run one challenge at once. Starting another challenge will shutdown the running challenge.
+			<br>
+			<br>
+			All flags follow the format: <strong class="text-bold">flag&#123; &#125;</strong>
+			<br>
+			<br>
+			In the top right corner are hints (?) that may help if you are stuck on a challenge.
 		</p>
 	{:else}
 		{#key $selectedChallenge}

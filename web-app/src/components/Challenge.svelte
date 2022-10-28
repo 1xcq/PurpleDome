@@ -1,6 +1,6 @@
 <script>
     import { onMount } from "svelte";
-    import { runningChallenge, challenges, machineSignal } from "../lib/stores"
+    import { challenges, machineSignal } from "../lib/stores"
     import Collapse from "./Collapse.svelte";
     import Loading from "./Loading.svelte";
 	export let eel;
@@ -10,6 +10,7 @@
     let isStarting = false;
     let correct = false;
     let flagError = false;
+    let showAnswer = -1;
     const flag_placeholder = `input with flag{___}`;
 
 	async function list() {
@@ -148,11 +149,15 @@
         <h2 class="text-lg font-bold">
             QUIZ:
         </h2>
-        <ul class="mt-2 flex flex-col justify-start w-full card rounded-lg p-4 bg-slate-800">
-            {#each $challenges[selectedChallenge].quiz as q}
+        <ul class="mt-2 flex flex-col justify-start w-full card rounded-lg p-4 gap-4 bg-slate-800">
+            {#each $challenges[selectedChallenge].quiz as q, i}
             <li>
-                <span>Question: </span>
-                <span>{q}</span>
+                <strong class="font-bold">Question: </strong>
+                <span>{q.question}</span>
+                <br>
+                <strong class="font-bold">Answer: </strong>
+                <!-- svelte-ignore a11y-click-events-have-key-events -->
+                <span on:click={() => showAnswer = i} class={showAnswer === i ? "transition rounded text-white bg-none duration-300" : "transition duration-300 rounded text-gray-900 bg-gray-900"}>{showAnswer === i ? q.answer : "x".repeat(q.answer.length)}</span>
             </li>
             {/each}
         </ul>

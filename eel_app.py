@@ -61,7 +61,7 @@ class Challenge:
         for x in ["path", "name", "description"]:
             data[x] = getattr(self, x)
         data["hints"] = [asdict(hint) for hint in self.hints]
-        data["quiz"] = [q.question for q in self.quiz]
+        data["quiz"] = [asdict(q) for q in self.quiz]
         print(data)
         return data
 
