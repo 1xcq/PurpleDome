@@ -8,6 +8,9 @@ import gevent.monkey
 gevent.monkey.patch_all()
 import eel
 from typing import Optional
+from dataclasses import dataclass, asdict
+from hashlib import sha256
+
 
 from app.machinecontrol import Machine
 from app.config import CTFEnvironmentConfig
@@ -16,14 +19,28 @@ from app.exceptions import MachineError
 from app.attack_log import AttackLog
 from plugins.base.machinery import MachineStates
 
+@dataclass
+class Hint:
+    title: str = ""
+    content: str = ""
+
+
+@dataclass
+class Quiz:
+    question: str = ""
+    answer: str = ""
+
 
 class Challenge:
     def __init__(self, _path):
         self.path = _path
         self.config: Optional[CTFEnvironmentConfig] = None
-        self.name: Optional[str] = None
-        self.description: Optional[str] = None
+        self.name: str = ""
+        self.description: str = ""
         self.targets: list[Machine] = []
+        self.hints: list[Hint] = []
+        self.quiz: list[Quiz] = []
+        self.flag: str = ""
         # (steps), hints, quiz
 
     def setup_machines(self):
@@ -43,8 +60,13 @@ class Challenge:
         data = {}
         for x in ["path", "name", "description"]:
             data[x] = getattr(self, x)
+        data["hints"] = [asdict(hint) for hint in self.hints]
+        data["quiz"] = [q.question for q in self.quiz]
         print(data)
         return data
+
+    def compare_flag(self, flag: str):
+        return sha256(flag.encode('utf-8')).hexdigest() == self.flag
 
     def start(self):
         def start_machine(machine):
@@ -101,23 +123,38 @@ def load_challenges():
     for c in challenges:
         config_path = os.path.join(challenge_dir, c.path, "config.yaml")
         c.config = CTFEnvironmentConfig(config_path)
+
         description_path = os.path.join(challenge_dir, c.path, "description.yaml")
-        with open(description_path, encoding="utf8") as fh:
-            data = yaml.safe_load(fh)
-            if data is None:
+        with open(description_path, encoding="utf8") as dfh:
+            description_data = yaml.safe_load(dfh)
+            if description_data is None:
                 continue
-            c.name = data.get("name", "")
-            c.description = data.get("description", "")
+        c.name = description_data.get("name", "")
+        c.description = description_data.get("description", "")
+        c.hints = [Hint(hint.get("title", ""), hint.get("content", "")) for hint in description_data.get("hints", [])]
+
+        secret_path = os.path.join(challenge_dir, c.path, "secrets.yaml")
+        with open(secret_path, encoding="utf8") as sfh:
+            secret_data = yaml.safe_load(sfh)
+            if secret_data is None:
+                continue
+        c.flag = secret_data.get("flag", "")
+
+        quiz_list = list(zip(description_data.get("quiz_questions", []), secret_data.get("quiz_answers", [])))
+        c.quiz = [Quiz(q[0], q[1]) for q in quiz_list]
+
         c.setup_machines()
 
 
 @eel.expose
 def start_challenge(index):
     global running_challenge
+    stop_running_challenge()  # check if there is a running challenge
+    print("already after stopping")
     challenge = challenges[index]
     challenge.start()
     running_challenge = index
-    return running_challenge
+    eel.update_running(running_challenge)  # calls JS function
 
 
 @eel.expose
@@ -128,6 +165,7 @@ def stop_running_challenge():
     challenge = challenges[running_challenge]
     challenge.stop()
     running_challenge = None
+    eel.update_running("")  # calls JS function
 
 
 @eel.expose
@@ -145,6 +183,24 @@ def list_challenge_machines(index):
 def get_running_challenge():
     global running_challenge
     return running_challenge
+
+
+# very naive approach at getting the network-address-space
+@eel.expose
+def get_network(index):
+    c = challenges[index]
+    t = c.targets[0]
+    ip = t.get_ip()
+    network = ip.split(".")[:3]
+    network.append("0")
+    return ".".join(network)
+    # return ip.split(".").pop(-1).append("0/24").join(".")
+
+
+@eel.expose
+def compare_challenge_flag(index, flag):
+    challenge = challenges[index]
+    return challenge.compare_flag(flag)
 
 
 def start_eel_server(development: bool):
@@ -169,4 +225,5 @@ def start_eel_server(development: bool):
 if __name__ == '__main__':
     environment = os.environ.get('ENV', '')
     load_challenges()
+    print(get_network(0))
     start_eel_server(development=(environment == 'dev'))

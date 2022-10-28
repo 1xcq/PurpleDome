@@ -1,16 +1,18 @@
 <script>
-    import { selectedChallenge, runningChallenge, challenges, machineSignal } from "../lib/stores"
+    import { selectedChallenge, runningChallenge, challenges } from "../lib/stores"
     import { onMount } from "svelte";
     import Heading from "./Heading.svelte";
+    import Loading from "./Loading.svelte";
 
     export let eel;
 
+    let isStopping = false;
+
     async function stop() {
+        isStopping = true;
         await eel.stop_running_challenge()();
         console.log("after stopping")
-        const value = $machineSignal
-        machineSignal.update(() => value);
-        runningChallenge.set("")
+        isStopping = false;
     }
 
     onMount(async () => {
@@ -29,8 +31,8 @@
     <!-- <div class="flex flex-col px-2 pt-4 gap-2"> -->
     <ul class="menu pt-4 text-md gap-2 rounded-none">
         {#each $challenges as challenge, index}
-        <li class={index === $selectedChallenge ? "bg-primary rounded-xl" : "rounded-xl"}>
-            <button class="rounded-xl" on:click={() => $selectedChallenge = index}>{challenge.name}</button>
+        <li class={index === $selectedChallenge ? "bg-primary rounded-lg" : ""}>
+            <button class="rounded-lg" on:click={() => $selectedChallenge = index}>{challenge.name}</button>
         </li>
         {/each}
     </ul>
@@ -40,6 +42,13 @@
         <div>
             Running: {$challenges[$runningChallenge]?.name || "None"}
         </div>
-        <button on:click={async () => await stop()} class="btn btn-error">STOP MACHINES</button>
+        <button on:click={async () => await stop()} class="btn btn-error">
+            
+            {#if isStopping}
+                <Loading></Loading>STOPPING
+            {:else}
+                STOP MACHINES
+            {/if}
+        </button>
     </div>
 </nav>

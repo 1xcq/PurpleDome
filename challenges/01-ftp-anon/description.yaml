@@ -1,13 +1,9 @@
 name: "Exam Heist"
 description: "The professor often uses this random server to upload exam drafts so he can access them from home. Maybe there is some way we can get access to that."
-steps:
-  - "Scan the machine ports"
-  - "Try to access ftp"
-quiz:
-  - question: "What additional port does FTP use?"
-    answer: "20"
-  - question: "In what way did you access the server?"
-    answer: "Anonymous"
+quiz_questions:
+  - "What additional port does FTP use?"
+  - "In what way did you access the server?"
 hints: 
-  - "FTP servers have been used in the past as a way to provide anonymous downloads. Try google for more information."
+  - title: ""
+    content: "FTP servers have been used in the past as a way to provide anonymous downloads. Try google for more information."
 

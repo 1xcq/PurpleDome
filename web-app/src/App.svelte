@@ -4,7 +4,7 @@
 
 <script>
 	import { onMount } from 'svelte';
-	import { selectedChallenge, challenges } from './lib/stores'
+	import { runningChallenge, selectedChallenge, challenges, machineSignal } from './lib/stores'
 
 	/** svelte components **/
 	import Challenge from './components/Challenge.svelte'
@@ -18,6 +18,7 @@
 
 	onMount(async () => {
 		$challenges = await fetchChallenges();
+		// TODO: check for running machines in backend
 		console.log($challenges);
 	});
 
@@ -25,18 +26,28 @@
 		let c = await eel.list_challenges()();
 		return c;
 	}
+
+	eel.expose(update_running);
+	function update_running(index) {
+		runningChallenge.set(index);
+
+        const value = $machineSignal
+        machineSignal.update(() => value);
+	}
 </script>
 
 <main class="flex w-full h-full py-4 text-white">
 	<Sidebar eel={eel}></Sidebar>
 	
-	<div class="p-8 w-full">
+	<div class="p-8 w-full overflow-auto">
 	{#if $selectedChallenge === ""}
 		<p>
 			Creating machines for the first time may take a while. Please be patient!
 		</p>
 	{:else}
-		<Challenge eel={eel} />
+		{#key $selectedChallenge}
+			<Challenge eel={eel} selectedChallenge={$selectedChallenge}/>
+		{/key}
 	{/if}
 	</div>
 </main>
