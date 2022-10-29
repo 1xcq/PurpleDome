@@ -13,7 +13,7 @@ class FtpVulnerability(VulnerabilityPlugin):
     ttp = "T1110"
     references = ["https://attack.mitre.org/techniques/T1110/"]
 
-    required_files = ["flag.txt"]    # Files shipped with the plugin which are needed by the machine. Will be copied to the share
+    required_files = ["it-security-exam.pdf"]    # Files shipped with the plugin which are needed by the machine. Will be copied to the share
 
     def __init__(self):
         super().__init__()
@@ -34,7 +34,7 @@ class FtpVulnerability(VulnerabilityPlugin):
         self.run_cmd(config)
 
         # make ftp folder
-        folder = "sudo mkdir /var/ftp && sudo mv /home/vagrant/flag.txt /var/ftp/flag.txt && sudo chown -R nobody:nogroup /var/ftp"
+        folder = "sudo mkdir /var/ftp && sudo mv /home/vagrant/it-security-exam.pdf /var/ftp/it-security-exam.pdf && sudo chown -R nobody:nogroup /var/ftp"
         self.run_cmd(folder)
 
         # Restart vsftpd
