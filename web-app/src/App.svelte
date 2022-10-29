@@ -1,7 +1,3 @@
-<!-- <svelte:head>
-	<script type="text/javascript" src="http://localhost:8080/eel.js"></script>
-</svelte:head> -->
-
 <script>
 	import { onMount } from 'svelte';
 	import { runningChallenge, selectedChallenge, challenges, machineSignal } from './lib/stores'
@@ -14,6 +10,7 @@
 	/** props **/
 	export let eel;
 
+	// point eel websocket to python instance
 	eel.set_host('ws://localhost:8080')
 
 	onMount(async () => {
@@ -26,13 +23,13 @@
 		return c;
 	}
 
-	eel.expose(update_running);
-	function update_running(index) {
+	function updateRunning(index) {
 		runningChallenge.set(index);
-
-        const value = $machineSignal
-        machineSignal.update(() => value);
+    	const value = $machineSignal;
+    	machineSignal.update(() => value);
 	}
+	window.eel.expose(updateRunning, "update_running");
+	// WARN: must use window.eel to keep parse-able eel.expose{...}
 </script>
 
 <main class="flex w-full h-full py-4 text-white">

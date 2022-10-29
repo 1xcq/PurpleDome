@@ -41,7 +41,6 @@ class Challenge:
         self.hints: list[Hint] = []
         self.quiz: list[Quiz] = []
         self.flag: str = ""
-        # (steps), hints, quiz
 
     def setup_machines(self):
         self.targets.clear()
@@ -62,7 +61,7 @@ class Challenge:
             data[x] = getattr(self, x)
         data["hints"] = [asdict(hint) for hint in self.hints]
         data["quiz"] = [asdict(q) for q in self.quiz]
-        print(data)
+        # print(data)
         return data
 
     def compare_flag(self, flag: str):
@@ -76,7 +75,7 @@ class Challenge:
             except subprocess.CalledProcessError:
                 # Maybe the machine just does not exist yet
                 pass
-            print(f"{machine.get_name()}: Up")
+            print(f"{machine.get_name()}: Starting")
             machine.up()
             machine.reboot()
             needs_reboot = machine.prime_vulnerabilities()
@@ -86,7 +85,7 @@ class Challenge:
             print(f"{machine.get_name()}: Vulns")
             machine.install_vulnerabilities()
             machine.start_vulnerabilities()
-            print(f"{machine.get_name()}: Done")
+            print(f"{machine.get_name()}: Finished")
 
         mq = MachineQueue(thread_num=4, callback_func=start_machine)
         for target in self.targets:
@@ -150,7 +149,6 @@ def load_challenges():
 def start_challenge(index):
     global running_challenge
     stop_running_challenge()  # check if there is a running challenge
-    print("already after stopping")
     challenge = challenges[index]
     challenge.start()
     running_challenge = index
@@ -225,5 +223,4 @@ def start_eel_server(development: bool):
 if __name__ == '__main__':
     environment = os.environ.get('ENV', '')
     load_challenges()
-    print(get_network(0))
     start_eel_server(development=(environment == 'dev'))
