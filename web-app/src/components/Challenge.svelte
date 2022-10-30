@@ -43,10 +43,10 @@
     $: list(), $machineSignal;
 </script>
 
-<div class="flex flex-col gap-8 w-full">
+<div class="flex flex-col gap-16 w-full">
     <div class="flex flex-row items-center">
         <!-- TITLE -->
-        <h2 class="text-lg font-bold flex-1">
+        <h2 class="text-xl font-bold flex-1">
             TITLE: 
             <span class="font-normal">
                 {$challenges[selectedChallenge].name}
@@ -76,7 +76,7 @@
     
     <!-- MACHINES -->
     <div>
-        <h2 class="text-lg font-bold">MACHINES:</h2>
+        <h2 class="text-xl font-bold">MACHINES:</h2>
 
         <div class="mt-2 flex flex-row justify-start gap-16 p-4 card bg-slate-800 rounded-lg w-full">
             {#if machines.length > 0}
@@ -115,17 +115,17 @@
 
     <!-- DESCRIPTION -->
     <div>
-        <h2 class="text-lg font-bold">
+        <h2 class="text-xl font-bold">
             DESCRIPTION:
         </h2>
-        <p class="font-normal mt-2">
+        <p class="font-normal mt-2 whitespace-pre-line text-lg">
             {$challenges[selectedChallenge].description}
         </p>
     </div>
 
     <!-- FLAG -->
     <div>
-        <h2 class="text-lg font-bold">
+        <h2 class="text-xl font-bold">
             SUBMIT THE FLAG:
         </h2>
         
@@ -144,22 +144,32 @@
             {/if}
     </div>
 
+    <!-- {#if correct} -->
     <!-- QUIZ -->
     <div>
-        <h2 class="text-lg font-bold">
+        <h2 class="text-xl font-bold">
             QUIZ:
         </h2>
         <ul class="mt-2 flex flex-col justify-start w-full card rounded-lg p-4 gap-4 bg-slate-800">
             {#each $challenges[selectedChallenge].quiz as q, i}
-            <li>
-                <strong class="font-bold">Question: </strong>
-                <span>{q.question}</span>
-                <br>
-                <strong class="font-bold">Answer: </strong>
-                <!-- svelte-ignore a11y-click-events-have-key-events -->
-                <span on:click={() => showAnswer = i} class={showAnswer === i ? "transition rounded text-white bg-none duration-300" : "transition duration-300 rounded text-gray-900 bg-gray-900"}>{showAnswer === i ? q.answer : "x".repeat(q.answer.length)}</span>
-            </li>
+                {#if i > 0}
+                    <div class="divider" />
+                {/if}
+                <li>
+                    <strong class="font-bold">Question: </strong>
+                    <span>{q.question}</span>
+                    <br>
+                    <br>
+                    <strong class="font-bold">Answer: </strong>
+                    {#if showAnswer === i}
+                        <span class="transition rounded text-white bg-none duration-300 break-words">{q.answer}</span>
+                    {:else}
+                        <!-- svelte-ignore a11y-click-events-have-key-events -->
+                        <span on:click={() => showAnswer = i} class="transition duration-300 rounded text-gray-900 bg-gray-900 break-all">{"x".repeat(q.answer.length)}</span>
+                    {/if}
+                </li>
             {/each}
         </ul>
     </div>
+    <!-- {/if} -->
 </div>

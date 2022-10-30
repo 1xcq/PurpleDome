@@ -1,11 +1,17 @@
 name: "Slow Service"
-description: ""
+description: | 
+  This has got to be the most secure website I have ever set up.
+  Can you have a look at it anyway and see if you find any issues?
+
+  Don't mind the other webservice that is running, I was only using it for testing if my server is online or not.
+  You can obviously ignore that.
 quiz_questions: 
-  - ""
-  - ""
+  - "How can you prevent attacks like this?"
 hints: 
-  - title: ""
-    content: ""
-  - title: ""
-    content: ""
+  - title: "Open ports"
+    content: "There are apparently 2 websites running on this machine. Have a look at them."
+  - title: "Type of attack"
+    content: "The website running on port 80 has a really suspicious picture. Take a closer look at its properties in the browser developer tools. Searching the type of attack combined with this keyword might give you some finished code."
+  - title: "Flag location"
+    content: "The other website might change if the other website is offline."
 

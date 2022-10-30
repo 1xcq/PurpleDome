@@ -5,10 +5,9 @@ linux:
   # a list of usernames and password. On linux passwords are created with mkpasswd -m sha-512
   - name: test
     password: tset
-    flag: "flag{test}"
-  - name: rockyou
+  - name: usesecurepasswords
     password: iloveyou
-    flag: "flag{rockyou}"
+    flag: "flag{b9d3bd73bbcf6be41738ef34fa08a3d1}"
 
 ###
 # Configuration for Windows

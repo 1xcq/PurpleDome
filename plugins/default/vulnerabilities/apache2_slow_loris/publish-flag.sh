@@ -11,7 +11,7 @@ class SimpleHTTPHandler(BaseHTTPRequestHandler):
             return False
 
     def do_GET(self):
-        flag = self.check_apache() and "____" or "flag{slowloris}"
+        flag = self.check_apache() and "____" or "flag{2da597e3a685dafb6bb647719a24c21a}"
         print(flag)
         self.send_response(200)
         self.send_header("Content-type", "text/html")

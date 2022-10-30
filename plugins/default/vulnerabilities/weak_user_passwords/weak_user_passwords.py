@@ -20,7 +20,6 @@ class WeakPasswordVulnerabilityVulnerability(VulnerabilityPlugin):
         self.plugin_path = __file__
 
     def start(self):
-
         if self.machine_plugin.config.os() == "linux":
             # Add vulnerable user
             # mkpasswd -m sha-512    # To calc the passwd
@@ -29,11 +28,12 @@ class WeakPasswordVulnerabilityVulnerability(VulnerabilityPlugin):
             for user in self.conf["linux"]:
                 add = f"sudo useradd {user['name']} -s /bin/bash -m"
                 self.run_cmd(add)
-                # useradd needs encrypted password, go around that by changing afterwards
+                # useradd needs hashed password, go around that by changing afterwards
                 pw = f"echo {user['name']}:{user['password']} | sudo chpasswd"
                 self.run_cmd(pw)
-                flag_cmd = f"sudo su - {user['name']} -c \"echo {user['flag']} >> /home/{user['name']}/flag.txt\""
-                self.run_cmd(flag_cmd)
+                if user.get('flag') is not None:
+                    flag_cmd = f"sudo su - {user['name']} -c \"echo {user['flag']} >> /home/{user['name']}/presentation-notes.txt\""
+                    self.run_cmd(flag_cmd)
 
         elif self.machine_plugin.config.os() == "windows":
 
@@ -51,13 +51,12 @@ class WeakPasswordVulnerabilityVulnerability(VulnerabilityPlugin):
             raise NotImplementedError
 
     def stop(self):
-
         if self.machine_plugin.config.os() == "linux":
             for user in self.conf["linux"]:
-                flag_cmd = f"sudo rm -rf /home/{user['name']}"
-                self.run_cmd(flag_cmd)
+                # flag_cmd = f"sudo rm -rf /home/{user['name']}"
+                # self.run_cmd(flag_cmd)
                 # Remove user
-                cmd = f"sudo userdel -r {user['name']}"
+                cmd = f"sudo userdel -rf {user['name']}"
                 self.run_cmd(cmd)
 
         elif self.machine_plugin.config.os() == "windows":

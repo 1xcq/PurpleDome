@@ -25,6 +25,10 @@ class TelnetVulnerability(VulnerabilityPlugin):
         install = "sudo apt-get -y install telnetd"
         self.run_cmd(install)
 
+        # Banner
+        banner = 'echo "I am a coffee machine!" | sudo tee /etc/issue.net'
+        self.run_cmd(banner)
+
         # Restart telnetd
         restart = "sudo systemctl start inetd"
         self.run_cmd(restart)

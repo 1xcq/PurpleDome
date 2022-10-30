@@ -1,13 +1,18 @@
 name: "Guess my credentials"
-description: "describe the challenge Scan which ports are open Try to guess the password for the test user Try to guess the password for the iloveyou user"
+description: | 
+  I prepared a presentation for a group project today and forgot my credentials to log in. Can you help me bruteforce the way into the system?
+
+  I can't remember the main user but I know the machine has a user named 'test' that is accessible over ssh and has a password somehow related to the name.
+  If you successfully log in with that one you might find the actual username.
+  I picked my password randomly from some list on the internet that had lots of very secure passwords!
 quiz_questions: 
-  - ""
-  - ""
+  - "What are some counter measures for SSH against bruteforce attacks?"
+  - "What are some of the most used passwords overall?"
 hints: 
-  - title: ""
-    content: "Check out hydra as a program to brute-force credentials"
-  - title: "" 
-    content: "Find out hydras special flags to check for common passwords in relation to the username"
-  - title: ""
-    content: "Rockyou was a big breach where a lot of credentials got leaked. Google how to use wordlists with hydra"
+  - title: "Tool to use"
+    content: "Check out hydra as a program to brute-force credentials. Have a look at hydras '-e' option in the man-page."
+  - title: "Finding the user"
+    content: "Look at /etc/passwd ('getent passwd'). User accounts normally start at ids above 1000."
+  - title: "Wordlist"
+    content: "In 2009 RockYou has been breached. As a result a massive list of passwords has been leaked. Have a look at how to use a wordlist with hydra."
 

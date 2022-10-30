@@ -1,10 +1,13 @@
 name: "Toxic Network"
-description: ""
+description: |
+  Apparently one of our tutors is using telnet to interact with the coffee machine in the building to regularly brew himself coffee when he takes a break.
+
+  Maybe we can have a look at the traffic he sends to it?
 quiz_questions:
-  - ""
-  - ""
+  - "Why is telnet consired insecure?"
+  - "How does ARP poisoning work?"
 hints: 
-  - title: ""
-    content: ""
-  - title: ""
-    content: ""
+  - title: "Tools to use"
+    content: "ettercap to start the MitM attack against the targets and wireshark to read the intercepted network packets"
+  - title: "What are we searching"
+    content: "You are looking for the flag inside the telnet traffic, wireshark might help to filter packet content for the flag string"
