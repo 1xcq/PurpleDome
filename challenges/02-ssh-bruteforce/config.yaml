@@ -27,7 +27,7 @@ targets:
 
     machinepath: target2
     # Do not destroy/create the machine: Set this to "yes".
-    use_existing_machine: yes
+    use_existing_machine: no
 
     ###
     # The folder all the implants will be installed into
