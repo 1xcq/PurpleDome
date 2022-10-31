@@ -19,7 +19,7 @@ class LinuxUFWPlugin(SensorPlugin):
         self.debugit = False
 
     def start(self):
-        self.run_cmd("sufo ufw allow 22")
+        self.run_cmd("sudo ufw allow 22")
         self.run_cmd("sudo ufw --force enable")
         for rule in self.conf.get('allow', []):
             self.run_cmd(f"sudo ufw allow {rule}")
