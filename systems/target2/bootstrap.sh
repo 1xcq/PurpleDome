@@ -17,6 +17,7 @@ apt -y install whois # for mkpasswd
 apt -y install libprotobuf-dev
 apt -y install libbpf-dev
 apt -y install gdb
+apt -y install openbsd-inetd tcpd
 
 apt -y update
 apt -y upgrade

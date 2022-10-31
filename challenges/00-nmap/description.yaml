@@ -1,8 +1,27 @@
 name: "Scan your targets"
-description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vulputate eu scelerisque felis imperdiet proin. Risus at ultrices mi tempus imperdiet nulla malesuada pellentesque. Mi tempus imperdiet nulla malesuada. Neque gravida in fermentum et sollicitudin ac orci. Commodo ullamcorper a lacus vestibulum sed arcu non. Adipiscing elit ut aliquam purus sit amet luctus. Diam maecenas ultricies mi eget mauris pharetra et. Ut sem nulla pharetra diam sit amet. Convallis a cras semper auctor. Venenatis cras sed felis eget velit aliquet sagittis. Cursus metus aliquam eleifend mi in nulla posuere sollicitudin aliquam. Sed arcu non odio euismod lacinia at quis risus sed. In cursus turpis massa tincidunt dui ut. Mi in nulla posuere sollicitudin aliquam ultrices sagittis orci a.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vulputate eu scelerisque felis imperdiet proin. Risus at ultrices mi tempus imperdiet nulla malesuada pellentesque. Mi tempus imperdiet nulla malesuada. Neque gravida in fermentum et sollicitudin ac orci. Commodo ullamcorper a lacus vestibulum sed arcu non. Adipiscing elit ut aliquam purus sit amet luctus. Diam maecenas ultricies mi eget mauris pharetra et. Ut sem nulla pharetra diam sit amet. Convallis a cras semper auctor. Venenatis cras sed felis eget velit aliquet sagittis. Cursus metus aliquam eleifend mi in nulla posuere sollicitudin aliquam. Sed arcu non odio euismod lacinia at quis risus sed. In cursus turpis massa tincidunt dui ut. Mi in nulla posuere sollicitudin aliquam ultrices sagittis orci a.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vulputate eu scelerisque felis imperdiet proin. Risus at ultrices mi tempus imperdiet nulla malesuada pellentesque. Mi tempus imperdiet nulla malesuada. Neque gravida in fermentum et sollicitudin ac orci. Commodo ullamcorper a lacus vestibulum sed arcu non. Adipiscing elit ut aliquam purus sit amet luctus. Diam maecenas ultricies mi eget mauris pharetra et. Ut sem nulla pharetra diam sit amet. Convallis a cras semper auctor. Venenatis cras sed felis eget velit aliquet sagittis. Cursus metus aliquam eleifend mi in nulla posuere sollicitudin aliquam. Sed arcu non odio euismod lacinia at quis risus sed. In cursus turpis massa tincidunt dui ut. Mi in nulla posuere sollicitudin aliquam ultrices sagittis orci a."
+description: |
+  This first challenges serves as an introduction to some basic scans on your targets with "nmap".
+  Make sure nmap is installed on your system.
+
+  After starting the machine try to scan the network it is supposed to be in.
+  You can do that by specifying the address and a subnet mask. (For example: "nmap 192.168.56.0/24")
+
+  Another option you might have is to interact with a system using its hostname. (In this case: "nmap target1.local")
+
+  It is possible that nmap tells you that the host seems down. Check it with the "ping" command.
+  In such a case you may use the option "-Pn" with nmap. Do some research on what it does.
+
+  After checking out the open services experiment a bit with additional nmap scans. 
+
+  Find out how to scan for the operating system of a target.
+  > How do can you change the timing of the scans?
+  > Try to do version detection on the open ports.
+  > Is there an option to combine all those scans?
 quiz_questions:
-  - "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vulputate eu scelerisque felis imperdiet proin. Risus at ultrices mi tempus imperdiet nulla malesuada pellentesque. Mi tempus imperdiet nulla malesuada. Neque gravida in fermentum et sollicitudin ac orci. Commodo ullamcorper a lacus vestibulum sed arcu non. Adipiscing elit ut aliquam purus sit amet luctus. Diam maecenas ultricies mi eget mauris pharetra et. Ut sem nulla pharetra diam sit amet. Convallis a cras semper auctor. Venenatis cras sed felis eget velit aliquet sagittis. Cursus metus aliquam eleifend mi in nulla posuere sollicitudin aliquam. Sed arcu non odio euismod lacinia at quis risus sed. In cursus turpis massa tincidunt dui ut. Mi in nulla posuere sollicitudin aliquam ultrices sagittis orci a."
-  - "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vulputate eu scelerisque felis imperdiet proin. Risus at ultrices mi tempus imperdiet nulla malesuada pellentesque. Mi tempus imperdiet nulla malesuada. Neque gravida in fermentum et sollicitudin ac orci. Commodo ullamcorper a lacus vestibulum sed arcu non. Adipiscing elit ut aliquam purus sit amet luctus. Diam maecenas ultricies mi eget mauris pharetra et. Ut sem nulla pharetra diam sit amet. Convallis a cras semper auctor. Venenatis cras sed felis eget velit aliquet sagittis. Cursus metus aliquam eleifend mi in nulla posuere sollicitudin aliquam. Sed arcu non odio euismod lacinia at quis risus sed. In cursus turpis massa tincidunt dui ut. Mi in nulla posuere sollicitudin aliquam ultrices sagittis orci a."
+  - "What is the most aggressive timing nmap may use?"
+  - "How many ports are open, how many closed?"
+  - "What does it mean when a port is filtered?"
+  - "What does the qotd service do?"
 hints: 
-  - title: "Program to use."
-    content: "Use nmap."
+  - title: "Flag"
+    content: "The flag can be found with a specific nmap scan."

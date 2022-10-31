@@ -1,0 +1,19 @@
+import socket
+import random
+
+quotes = [
+    "Never do today what you can do tomorrow\n",
+    "Nobody lies on the internet\n",
+    "The cake is a lie\n"
+]
+
+server = socket.socket()
+server.bind(("0.0.0.0", 17)) # Bind to port 17
+server.listen(1)
+
+while True:
+    c, addr = server.accept()
+    quote = random.choice(quotes)
+    c.sendall(quote.encode('utf-8'))
+    c.close()
+

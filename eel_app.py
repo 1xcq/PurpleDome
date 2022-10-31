@@ -85,6 +85,8 @@ class Challenge:
             print(f"{machine.get_name()}: Vulns")
             machine.install_vulnerabilities()
             machine.start_vulnerabilities()
+            machine.install_sensors()
+            machine.start_sensors()
             print(f"{machine.get_name()}: Finished")
 
         mq = MachineQueue(thread_num=4, callback_func=start_machine)

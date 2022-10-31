@@ -2,7 +2,7 @@ name: "Toxic Network"
 description: |
   Apparently one of our tutors is using telnet to interact with the coffee machine in the building to regularly brew himself coffee when he takes a break.
 
-  Maybe we can have a look at the traffic he sends to it?
+  Maybe we can have a look at the traffic he sends to it by acting as a Man in the Middle?
 quiz_questions:
   - "Why is telnet consired insecure?"
   - "How does ARP poisoning work?"

@@ -1,0 +1,11 @@
+[Unit]
+Description=Simple quote service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/vagrant/qotd
+Restart=always
+RestartSec=3s
+
+[Install]
+WantedBy=multi-user.target
