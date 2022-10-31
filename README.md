@@ -2,29 +2,26 @@
 
 This fork of PurpleDome contains a lot of changes that make the project more suitable for CTF use.
 
-I do **not** recommend using it in Online-Events as the virtual machines PurpleDome sets up with Vagrant are insecure by design. (Standard Credentials)
+I do **not** recommend using it in Online-Events as the virtual machines PurpleDome sets up with Vagrant are insecure by design.
 
 The changes so far mainly serve the purpose as a Network-Lab to learn and try out new concepts.
 
 ## Installation
 
-On a current Ubuntu 21.10 system, just execute the *init.sh* to install the required packages and set up the virtual env.
+On a current Ubuntu 21.10 system, just execute the *setup_requirements_ubuntu.sh* to install the required packages and set up the virtual env.
 
-You need python 3.9
+You **need** python 3.9
 
-**If you do not have python 3.9, have a look at pyenv**
 
-Another option on Ubuntu is to install the python3.9 package with apt-get via the deadsnakes/ppa source. 
+```bash
+./setup_requirements_ubuntu.sh
+```
 
 It will not run properly in a VM unless VT-x is available, as it spawns own VMs. We confirmed it is working in VirtualBox. Please reserve enough disk space. The simple ctf_world configfile will already download an ubuntu image an create 2 VMs. They must be stored on your VM.
 
-```bash
-./init.sh
-```
-
 Default vms will be vagrant and virtualbox.
 
-*Make sure the virtual environment has been created with the correct python version (have a look into `venv/bin/`)*
+*Make sure it created the virtualenv with the correct python version. (3.9)*
 
 **Before using any PurpleDome commands switch into the python environment:**
 
@@ -35,10 +32,9 @@ source venv/bin/activate
 ## Setting up the CTF environment
 
 **Make sure you are in the python3.9 virtual environment**
-   - (check if all requirements are installed) 
 
 ```bash
-python3 ./ctf_control.py -vv  run --configfile ctf_world
+python3 ./ctf_control.py -vv  run --configfile example_config.yaml
 ```
 
 **This will:**
@@ -54,9 +50,7 @@ python3 ./ctf_control.py -vv  run --configfile ctf_world
 
 #### Vagrantfile Network Bridge
 
-The vagrant configuration uses a bridged public_network shared between the VirtualBox VMs. 
-
-If you do not have one or yours has a different name, please create one and change the config. 
+In case you configured vagrant with ```systems/network.settings.yaml``` to use a bridged_network instead a private one.
 
 Currently every machine tries to use the default gateway for your local network.
 
@@ -65,17 +59,9 @@ Useful: `ip addr sh`
 
 #### Static ip-addresses
 
-As a default dhcp is used to configure the vagrant machines inside the network.
+As a default dhcp is used to configure the vagrant machines inside the a private network.
 
 If dhcp fails and `/systems/target/ip4.txt` does not exist, is empty or has an ipv6 address -> Uncomment the static ips in `/systems/network.settings.yaml` or set your own.
-
-#### Use private network
-
-If you do not want your vulnerable VMs to be accessible from other machines inside your local network you can use a host-only network to access them. 
-
-**This will some break challenges.**
-
-To activate private_network set "use_private" in `/systems/network.settings.yaml` to true.
 
 #### Vagrant machine creation
 
