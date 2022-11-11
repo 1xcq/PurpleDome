@@ -1,6 +1,6 @@
 name: "Scan your targets"
 description: |
-  This first challenges serves as an introduction to some basic scans on your targets with "nmap".
+  This first challenge serves as an introduction to some basic scans on your targets with "nmap".
   Make sure nmap is installed on your system.
 
   After starting the machine try to scan the network it is supposed to be in.
@@ -13,7 +13,7 @@ description: |
 
   After checking out the open services experiment a bit with additional nmap scans. 
 
-  Find out how to scan for the operating system of a target.
+  > Find out how to scan for the operating system of a target.
   > How do can you change the timing of the scans?
   > Try to do version detection on the open ports.
   > Is there an option to combine all those scans?
